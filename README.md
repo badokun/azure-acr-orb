@@ -15,7 +15,7 @@ Following is the full list of parameters required by this orb's various commands
 | `azure-sp-password` | `env_var_name` | `AZURE_SP_PASSWORD` | Name of environment variable storing the password for the Service Principal. Only applicable for Service Principal logins. |
 | `azure-sp-tenant` | `env_var_name` | `AZURE_SP_TENANT` | Name of environment variable storing the tenant ID for the Service Principal. Only applicable for Service Principal logins. |
 | `azure-tenant` | `env_var_name` | `AZURE_TENANT` | Environment variable storing your Azure tenant, necessary if `alternate-tenant` is set to true. Only applicable for user logins. |
-| `checkout` | `boolean` | `true` | Boolean for whether or not to checkout as a first step. |
+| `checkout` | `boolean` | `true` | Boolean for whether or not to checkout as a first step. Note, this will also update any submodules |
 | `dockerfile` | `string` | `Dockerfile` | name of Dockerfile to use |
 | `executor` | `executor` | `default` | name of any custom executor (default is `machine: true`) |
 | `extra-build-args` | `string` | `""` | Extra flags to pass to `docker build` (see [docs.docker.com/engine/reference/commandline/build](https://docs.docker.com/engine/reference/commandline/build)) |
@@ -48,3 +48,16 @@ workflows:
 
 ## Contributing
 We welcome [issues](https://github.com/CircleCI-Public/azure-acr-orb/issues) to and [pull requests](https://github.com/CircleCI-Public/azure-acr-orb/pulls) against this repository! For further questions/comments about this or other orbs, visit [CircleCI's Orbs discussion forum](https://discuss.circleci.com/c/orbs).
+
+## Publishing
+
+For reference see <https://circleci.com/docs/2.0/orb-author/>
+
+```bash
+circleci namespace create badokun github badokun
+circleci orb create badokun/build-and-push-image
+circleci config pack src > orb.yml
+circleci orb validate orb.yml
+circleci orb publish orb.yml badokun/build-and-push-image@dev:third
+circleci orb publish promote badokun/build-and-push-image@dev:third patch
+```
